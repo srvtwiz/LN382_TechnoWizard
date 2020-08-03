@@ -1,0 +1,47 @@
+#define NUM 10
+float temp;
+int tempPin = 0;
+int sum = 0;                   
+unsigned char sample_count = 0;
+float voltage;
+float vin;
+float l=0.0;
+int soc;
+void setup() {
+   Serial.begin(9600);
+}
+
+void loop() {
+   
+   temp = analogRead(tempPin);
+    temp = temp * 0.48828125;
+    Serial.print("TEMPERATURE = ");
+   Serial.print(temp); 
+   Serial.print("*C");
+   Serial.println();
+   delay(1000);
+    while (sample_count < NUM) {
+        sum += analogRead(A2);
+        sample_count++;
+        delay(10);
+    }
+   
+    voltage = ((float)sum / (float)NUM * 5.015) / 1024.0;
+  
+   l=voltage*11.132;
+    Serial.print(l);
+    Serial.println("v");
+    sample_count = 0;
+    sum = 0;
+    lope();
+    
+}
+void lope()
+
+{
+  float a=13.02;
+  if(l > a)
+    Serial.print("soc=100%");
+  Serial.print("code reached");
+}
+
